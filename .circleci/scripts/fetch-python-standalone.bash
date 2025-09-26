@@ -77,6 +77,35 @@ fetch() {
     echo "Downloading ${binary}"
     curl --proto '=https' --tlsv1.2 -sS -L "$url" -o "${DOWNLOAD_DIR}/${binary}"
 
+    # echo "Downloading manual"
+    # cp "${INPUT_DIR}/${binary}" "${DOWNLOAD_DIR}/${binary}"
+    # cp "${INPUT_DIR}/${binary}.sha256" "${DOWNLOAD_DIR}/${binary}.sha256"
+    # max_retry=5
+    # retry=0
+    # while true; do
+    #     curl --proto '=https' --max-time 30 -L "$url" -o "${DOWNLOAD_DIR}/${binary}" && break
+    #     retry=$((retry+1))
+    #     if [ $retry -ge $max_retry ]; then
+    #         echo "Download failed after $max_retry attempts: $url"
+    #         exit 1
+    #     fi
+    #     echo "Download failed, retrying ($retry/$max_retry)..."
+    #     sleep 2
+    # done
+
+    # echo "Downloading ${binary}.sha256"
+    # retry=0
+    # while true; do
+    #     curl --proto '=https' --max-time 30 -L "${url}.sha256" -o "${DOWNLOAD_DIR}/${binary}.sha256" && break
+    #     retry=$((retry+1))
+    #     if [ $retry -ge $max_retry ]; then
+    #         echo "Download failed after $max_retry attempts: ${url}.sha256"
+    #         exit 1
+    #     fi
+    #     echo "Download failed, retrying ($retry/$max_retry)..."
+    #     sleep 2
+    # done
+
     dl_sha=$(grep "$binary" "${DOWNLOAD_DIR}/SHA256SUMS" | cut -d ' ' -f 1)
     if [ -z "$dl_sha" ]; then
         echo "Could not find properly formatted SHA256 in '${DOWNLOAD_DIR}/SHA256SUMS'"
